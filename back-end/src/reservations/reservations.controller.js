@@ -19,12 +19,12 @@ async function create(req, res) {
 module.exports = {
   list,
   create: [
-    hasProperties("first_name"),
-    hasProperties("last_name"),
-    hasProperties("mobile_number"),
-    hasProperties("reservation_date"),
-    hasProperties("reservation_time"),
-    hasProperties("people"),
-    create
+    asyncErrorBoundary(hasProperties("first_name")),
+    asyncErrorBoundary(hasProperties("last_name")),
+    asyncErrorBoundary(hasProperties("mobile_number")),
+    asyncErrorBoundary(hasProperties("reservation_date")),
+    asyncErrorBoundary(hasProperties("reservation_time")),
+    asyncErrorBoundary(hasProperties("people")),
+    asyncErrorBoundary(create)
   ]
 };
