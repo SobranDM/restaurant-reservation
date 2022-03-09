@@ -20,12 +20,7 @@ async function create(req, res) {
 module.exports = {
   list,
   create: [
-    asyncErrorBoundary(hasProperties("first_name")),
-    asyncErrorBoundary(hasProperties("last_name")),
-    asyncErrorBoundary(hasProperties("mobile_number")),
-    asyncErrorBoundary(hasProperties("reservation_date")),
-    asyncErrorBoundary(hasProperties("reservation_time")),
-    asyncErrorBoundary(hasProperties("people")),
+    hasProperties("first_name", "last_name", "mobile_number", "reservation_date", "reservation_time", "people"),
     asyncErrorBoundary(create)
   ]
 };

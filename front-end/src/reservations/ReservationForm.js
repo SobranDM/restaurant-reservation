@@ -1,25 +1,30 @@
 import React from 'react';
 
-export const ReservationForm = () => {
+export const ReservationForm = ({ formData, setFormData }) => {
+
+  function handleChange({ target }) {
+    setFormData({ ...formData, [target.name]: target.value });
+  }
+
   return (
     <form>
       <div className="form-group">
-        <label for="first_name">First Name:</label>
-        <input type="string" className="form-control" id="first_name" />
-        <label for="last_name">Last Name:</label>
-        <input type="string" className="form-control" id="last_name" />
+        <label htmlFor="first_name">First Name:</label>
+        <input type="string" className="form-control" name="first_name" onChange={handleChange} />
+        <label htmlFor="last_name">Last Name:</label>
+        <input type="string" className="form-control" name="last_name" onChange={handleChange} />
       </div>
       <div className="form-group">
-        <label for="mobile_number">Mobile Number:</label>
-        <input type="string" className="form-control" id="mobile_number" />
-        <label for="people">Number in Party:</label>
-        <input type="integer" className="form-control" id="people" />
+        <label htmlFor="mobile_number">Mobile Number:</label>
+        <input type="string" className="form-control" name="mobile_number" onChange={handleChange} />
+        <label htmlFor="people">Number in Party:</label>
+        <input type="integer" className="form-control" name="people" onChange={handleChange} />
       </div>
       <div className="form-group">
-        <label for="reservation_date">Reservation Date:</label>
-        <input type="date" className="form-control" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" />
-        <label for="reservation_time">Reservation Time:</label>
-        <input type="time" className="form-control" placeholder="HH:MM" pattern="[0-9]{2}:[0-9]{2}" />
+        <label htmlFor="reservation_date">Reservation Date:</label>
+        <input type="date" name="reservation_date" className="form-control" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" onChange={handleChange} />
+        <label htmlFor="reservation_time">Reservation Time:</label>
+        <input type="time" name="reservation_time" className="form-control" placeholder="HH:MM" pattern="[0-9]{2}:[0-9]{2}" onChange={handleChange} />
       </div>
     </form>
   )
