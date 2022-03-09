@@ -4,6 +4,7 @@
 
 const service = require("./reservations.service");
 const hasProperties = require("../errors/hasProperties");
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 async function list(req, res) {
   res.json({
