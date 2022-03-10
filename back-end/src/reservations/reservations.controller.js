@@ -19,7 +19,6 @@ async function create(req, res) {
 
 async function listByDate(req, res) {
   const { date } = req.query;
-  console.log(date);
   const data = await service.listByDate(date);
   res.json({ data });
 }

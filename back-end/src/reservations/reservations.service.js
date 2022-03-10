@@ -9,7 +9,6 @@ function create(newReservation) {
 }
 
 function listByDate(date) {
-  console.log(date);
   return knex("reservations")
     .select("*")
     .where({ reservation_date: date })
