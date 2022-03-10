@@ -17,8 +17,15 @@ async function create(req, res) {
   res.status(201).json({ data });
 }
 
+async function listByDate(req, res) {
+  const { date } = req.params;
+  const data = await service.listByDate(date);
+  res.json({ data });
+}
+
 module.exports = {
   list,
+  listByDate,
   create: [
     hasProperties("first_name", "last_name", "mobile_number", "reservation_date", "reservation_time", "people"),
     asyncErrorBoundary(create)
