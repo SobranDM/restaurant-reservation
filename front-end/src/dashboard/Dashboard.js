@@ -28,9 +28,30 @@ function Dashboard({ date }) {
       <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
         <h4 className="mb-0">Reservations for date</h4>
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Time</th>
+              <th scope="col">Name</th>
+              <th scope="col">People</th>
+              <th scope="col">Mobile Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            {reservations.map((reservation) => {
+              return (
+                <tr key={reservation.reservation_id}>
+                  <td>{reservation.reservation_time}</td>
+                  <td>{reservation.first_name} {reservation.last_name}</td>
+                  <td>{reservation.people}</td>
+                  <td>{reservation.mobile_number}</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </div>
       <ErrorAlert error={reservationsError} />
-      {JSON.stringify(reservations)}
     </main>
   );
 }
