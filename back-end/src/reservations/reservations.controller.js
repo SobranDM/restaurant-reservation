@@ -3,14 +3,10 @@
  */
 
 const service = require("./reservations.service");
-const hasProperties = require("../errors/hasProperties");
+const hasProperties = require("../utils/hasProperties");
+const { isDate, isTime, isNumber, isNotTuesday, isFuture } = require("../utils/fieldValidation");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
-async function list(req, res) {
-  res.json({
-    data: [],
-  });
-}
 
 async function create(req, res) {
   const data = await service.create(req.body.data);
@@ -24,10 +20,14 @@ async function listByDate(req, res) {
 }
 
 module.exports = {
-  list,
   listByDate,
   create: [
     hasProperties("first_name", "last_name", "mobile_number", "reservation_date", "reservation_time", "people"),
+    isDate(),
+    isTime(),
+    isNumber(),
+    isNotTuesday(),
+    isFuture(),
     asyncErrorBoundary(create)
   ]
 };

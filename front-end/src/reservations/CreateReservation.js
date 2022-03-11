@@ -23,7 +23,7 @@ export const CreateReservation = () => {
     const submitDay = submitDate.getDay();
     if (submitDate < todaysDate) {
       setErrorMessage('Cannot set reservation for past date.')
-    } else if (submitDay === 2) {
+    } else if (submitDay === 1) {
       setErrorMessage('We apologize. The restaurant is not open on Tuesdays.')
     } else {
       try {
