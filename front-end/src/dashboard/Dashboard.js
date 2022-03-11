@@ -10,11 +10,12 @@ import { today, previous, next } from "../utils/date-time";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
+
 function Dashboard() {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
   const search = useLocation().search;
-  const dateParam = new URLSearchParams(search).get('date');
+  const dateParam = new URLSearchParams(search).get("date");
 
   let date;
   if (dateParam) {
@@ -39,18 +40,31 @@ function Dashboard() {
 
   return (
     <main>
-      <div className="d-md-flex mb-3 flex-column align-items-center">
-        <h1>Dashboard</h1>
-        <div className="d-flex flex-row mb-3 mt-4">
-          <h4 className="mr-3">Reservations for {date}</h4>
-          <div className="btn-group" role="group" aria-label="navigate dates">
-            <Link to={"/dashboard?date=" + previousDay}><button type="button" className="btn btn-secondary">Prev</button></Link>
-            <Link to={"/dashboard"}><button type="button" className="btn btn-secondary">Today</button></Link>
-            <Link to={"/dashboard?date=" + nextDay}><button type="button" className="btn btn-secondary">Next</button></Link>
-          </div>
+      <h1 className="mt-3">Dashboard</h1>
+      <div className="d-md-flex mb-3 flex-column">
+        <h4>Reservations for {date}</h4>
+        <div
+          className="btn-group my-4 justify-content-between"
+          role="group"
+          aria-label="navigate dates">
+          <Link to={"/dashboard?date=" + previousDay}>
+            <button type="button" className="btn btn-info">
+              Prev
+            </button>
+          </Link>
+          <Link to={"/dashboard"}>
+            <button type="button" className="btn btn-primary mx-1">
+              Today
+            </button>
+          </Link>
+          <Link to={"/dashboard?date=" + nextDay}>
+            <button type="button" className="btn btn-info">
+              Next
+            </button>
+          </Link>
         </div>
-        <table className="table">
-          <thead>
+        <table className="table table-striped table-bordered">
+          <thead className="table-secondary">
             <tr>
               <th scope="col">Time</th>
               <th scope="col">Name</th>
@@ -63,11 +77,14 @@ function Dashboard() {
               return (
                 <tr key={reservation.reservation_id}>
                   <td>{reservation.reservation_time}</td>
-                  <td>{reservation.first_name} {reservation.last_name}</td>
+                  <td>
+                    {reservation.first_name}{" "}
+                    {reservation.last_name}
+                  </td>
                   <td>{reservation.people}</td>
                   <td>{reservation.mobile_number}</td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </table>
