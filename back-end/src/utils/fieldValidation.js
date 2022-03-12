@@ -101,7 +101,7 @@ function isOpen() {
         error.status = 400;
         throw error;
       }
-    }catch (error) {
+    } catch (error) {
       next(error);
     }
   }
