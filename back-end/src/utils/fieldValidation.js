@@ -31,10 +31,18 @@ function isTime() {
   }
 }
 
+function makeDateObjects() {
+  return function (req, res, next) {
+    res.locals.submitDate = new Date(`${req.body.data.reservation_date} ${req.body.data.reservation_time}`);
+    res.locals.currentDate = new Date();
+    next();
+  }
+}
+
 function isNumber() {
   return function (req, res, next) {
     try {
-      if(typeof Number(req.body.data.people) === "number") {
+      if(typeof req.body.data.people === "number") {
         next();
       } else {
         const error = new Error(`Field: "people" is not a valid number`);
@@ -49,9 +57,8 @@ function isNumber() {
 
 function isNotTuesday() {
   return function (req, res, next) {
-    const submitDay = new Date(req.body.data.reservation_date).getDay();
     try {
-      if (submitDay != 1) {
+      if (res.locals.submitDate.getDay() != 2) {
         next();
       } else {
         const error = new Error(`We apologize. The restaurant is closed on Tuesdays.`);
@@ -66,10 +73,8 @@ function isNotTuesday() {
 
 function isFuture() {
   return function (req, res, next) {
-    const submitDate = new Date(req.body.data.reservation_date);
-    const todaysDate = new Date();
     try {
-      if (submitDate >= todaysDate) {
+      if (res.locals.submitDate >= res.locals.currentDate) {
         next();
       } else {
         const error = new Error(`The reservation must be in the future. We cannot time travel.`);
@@ -82,10 +87,29 @@ function isFuture() {
   }
 }
 
+function isOpen() {
+  return function (req, res, next) {
+    try {
+      const submitTime = res.locals.submitDate.getTime();
+      if (submitTime >= "10:30" && submitTime <= "21:30") {
+        next();
+      } else {
+        const error = new Error(`We apologize. We only accept reservations between 10:30 AM and 9:30 PM.`)
+        error.status = 400;
+        throw error;
+      }
+    }catch (error) {
+      next(error);
+    }
+  }
+}
+
 module.exports = {
   isDate,
   isTime,
   isNumber,
   isNotTuesday,
-  isFuture
+  isFuture,
+  isOpen,
+  makeDateObjects
 }

@@ -25,7 +25,7 @@ export const ReservationForm = ({ formData, setFormData }) => {
       </div>
       <div className="d-flex">
         <input
-          type="integer"
+          type="number"
           className="form-control m-1"
           name="people"
           onChange={handleChange}

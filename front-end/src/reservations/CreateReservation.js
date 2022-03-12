@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { ReservationForm } from "./ReservationForm";
 import { createReservation } from "../utils/api.js";
-import { today } from "../utils/date-time";
 
 export const CreateReservation = () => {
   const history = useHistory();
-  const todaysDate = new Date(today());
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
     first_name: "",
@@ -19,21 +17,14 @@ export const CreateReservation = () => {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const submitDate = new Date(formData.reservation_date);
-    const submitDay = submitDate.getDay();
-    if (submitDate < todaysDate) {
-      setErrorMessage('Cannot set reservation for past date.')
-    } else if (submitDay === 1) {
-      setErrorMessage('We apologize. The restaurant is not open on Tuesdays.')
-    } else {
-      try {
-        await createReservation(formData).then(() => {
-          const destination = `/dashboard?date=${formData.reservation_date}`
-          history.push(destination);
-        })
-      } catch (error) {
-        setErrorMessage(error.message);
-      }
+    try {
+      let parsedForm = { ...formData, people: Number(formData.people) }
+      await createReservation(parsedForm).then(() => {
+        const destination = `/dashboard?date=${formData.reservation_date}`
+        history.push(destination);
+      })
+    } catch (error) {
+      setErrorMessage(error.message);
     }
   }
 

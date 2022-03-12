@@ -4,7 +4,7 @@
 
 const service = require("./reservations.service");
 const hasProperties = require("../utils/hasProperties");
-const { isDate, isTime, isNumber, isNotTuesday, isFuture } = require("../utils/fieldValidation");
+const { isDate, isTime, isNumber, isNotTuesday, isFuture, makeDateObjects, isOpen } = require("../utils/fieldValidation");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 
@@ -25,9 +25,11 @@ module.exports = {
     hasProperties("first_name", "last_name", "mobile_number", "reservation_date", "reservation_time", "people"),
     isDate(),
     isTime(),
+    makeDateObjects(),
     isNumber(),
     isNotTuesday(),
     isFuture(),
+    //isOpen(),
     asyncErrorBoundary(create)
   ]
 };
