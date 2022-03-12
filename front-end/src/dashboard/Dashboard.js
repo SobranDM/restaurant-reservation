@@ -70,6 +70,7 @@ function Dashboard() {
               <th scope="col">Name</th>
               <th scope="col">People</th>
               <th scope="col">Mobile Number</th>
+              <th scope="col" />
             </tr>
           </thead>
           <tbody>
@@ -83,6 +84,11 @@ function Dashboard() {
                   </td>
                   <td>{reservation.people}</td>
                   <td>{reservation.mobile_number}</td>
+                  <td>
+                    <Link to={`/reservations/${reservation.reservation_id}/seat`}>
+                      <button type="button" className="btn btn-sm btn-secondary m-0">Seat</button>
+                    </Link>
+                  </td>
                 </tr>
               );
             })}
