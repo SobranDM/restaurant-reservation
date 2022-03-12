@@ -4,7 +4,7 @@
 
 const service = require("./reservations.service");
 const hasProperties = require("../utils/hasProperties");
-const { isDate, isTime, isNumber, isNotTuesday, isFuture, makeDateObjects, isOpen } = require("../utils/fieldValidation");
+const { isDate, isTime, isNumber, isNotTuesday, isFuture, makeDateObjects, isOpen } = require("../utils/reservationValidation");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 
