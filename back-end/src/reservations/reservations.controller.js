@@ -1,12 +1,10 @@
-/**
- * List handler for reservation resources
- */
-
 const service = require("./reservations.service");
 const hasProperties = require("../utils/hasProperties");
 const { isDate, isTime, isNumber, isNotTuesday, isFuture, makeDateObjects, isOpen } = require("../utils/reservationValidation");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
+
+// Method functions
 async function create(req, res) {
   const data = await service.create(req.body.data);
   res.status(201).json({ data });

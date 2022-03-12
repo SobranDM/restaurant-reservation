@@ -1,13 +1,13 @@
-const service = require("./tables.service");
-const hasProperties = require("../utils/hasProperties");
-const { } = require("../utils/tablesValidation");
-const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+const knex = require("../db/connection");
 
-
+// Method functions
+function create(newTable) {
+  return knex("tables")
+    .insert(newTable)
+    .returning("*")
+    .then((createdTables) => createdTables[0]);
+}
 
 module.exports = {
-  create: [
-    hasProperties("table_name", "capacity"),
-    asyncErrorBoundary(create)
-  ]
+  create
 }
