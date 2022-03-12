@@ -29,7 +29,7 @@ module.exports = {
     isNumber(),
     isNotTuesday(),
     isFuture(),
-    //isOpen(),
+    isOpen(),
     asyncErrorBoundary(create)
   ]
 };

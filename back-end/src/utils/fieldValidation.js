@@ -74,6 +74,8 @@ function isNotTuesday() {
 function isFuture() {
   return function (req, res, next) {
     try {
+      console.log(res.locals.submitDate);
+      console.log(res.locals.currentDate);
       if (res.locals.submitDate >= res.locals.currentDate) {
         next();
       } else {
@@ -90,11 +92,12 @@ function isFuture() {
 function isOpen() {
   return function (req, res, next) {
     try {
-      const submitTime = res.locals.submitDate.getTime();
+      const submitTime = `${res.locals.submitDate.getHours()}:${res.locals.submitDate.getMinutes()}`;
+      console.log(submitTime)
       if (submitTime >= "10:30" && submitTime <= "21:30") {
         next();
       } else {
-        const error = new Error(`We apologize. We only accept reservations between 10:30 AM and 9:30 PM.`)
+        const error = new Error(`We apologize. We only accept reservations between 10:30 AM and 9:30 PM.`);
         error.status = 400;
         throw error;
       }
