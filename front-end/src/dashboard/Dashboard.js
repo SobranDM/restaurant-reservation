@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { listReservations } from "../utils/api";
+import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { today, previous, next } from "../utils/date-time";
+
+import "./Dashboard.css";
 
 /**
  * Defines the dashboard page.
@@ -13,7 +15,8 @@ import { today, previous, next } from "../utils/date-time";
 
 function Dashboard() {
   const [reservations, setReservations] = useState([]);
-  const [reservationsError, setReservationsError] = useState(null);
+  const [tables, setTables] = useState([]);
+  const [error, setError] = useState(null);
   const search = useLocation().search;
   const dateParam = new URLSearchParams(search).get("date");
 
@@ -31,10 +34,13 @@ function Dashboard() {
 
   function loadDashboard(date) {
     const abortController = new AbortController();
-    setReservationsError(null);
+    setError(null);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
-      .catch(setReservationsError);
+      .catch(setError);
+    listTables(abortController.signal)
+      .then(setTables)
+      .catch(setError);
     return () => abortController.abort();
   }
 
@@ -44,7 +50,7 @@ function Dashboard() {
       <div className="d-md-flex mb-3 flex-column">
         <h4>Reservations for {date}</h4>
         <div
-          className="btn-group my-4 justify-content-between"
+          className="btn-group my-4 justify-content-start"
           role="group"
           aria-label="navigate dates">
           <Link to={"/dashboard?date=" + previousDay}>
@@ -53,7 +59,7 @@ function Dashboard() {
             </button>
           </Link>
           <Link to={"/dashboard"}>
-            <button type="button" className="btn btn-primary mx-1">
+            <button type="button" className="btn btn-primary mx-3">
               Today
             </button>
           </Link>
@@ -63,39 +69,72 @@ function Dashboard() {
             </button>
           </Link>
         </div>
-        <table className="table table-striped table-bordered">
-          <thead className="table-secondary">
-            <tr>
-              <th scope="col">Time</th>
-              <th scope="col">Name</th>
-              <th scope="col">People</th>
-              <th scope="col">Mobile Number</th>
-              <th scope="col" />
-            </tr>
-          </thead>
-          <tbody>
-            {reservations.map((reservation) => {
-              return (
-                <tr key={reservation.reservation_id}>
-                  <td>{reservation.reservation_time}</td>
-                  <td>
-                    {reservation.first_name}{" "}
-                    {reservation.last_name}
-                  </td>
-                  <td>{reservation.people}</td>
-                  <td>{reservation.mobile_number}</td>
-                  <td>
-                    <Link to={`/reservations/${reservation.reservation_id}/seat`}>
-                      <button type="button" className="btn btn-sm btn-secondary m-0">Seat</button>
-                    </Link>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="container-fluid">
+          <div className="row align-items-start">
+            <div className="col pl-0">
+              <table className="table table-striped table-bordered">
+                <caption><h3>Reservations</h3></caption>
+                <thead className="table-secondary">
+                  <tr>
+                    <th scope="col">Time</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">People</th>
+                    <th scope="col">Mobile Number</th>
+                    <th scope="col-1" />
+                  </tr>
+                </thead>
+                <tbody>
+                  {reservations.map((reservation) => {
+                    return (
+                      <tr key={reservation.reservation_id}>
+                        <td>{reservation.reservation_time}</td>
+                        <td>
+                          {reservation.first_name}{" "}
+                          {reservation.last_name}
+                        </td>
+                        <td>{reservation.people}</td>
+                        <td>{reservation.mobile_number}</td>
+                        <td className="button-data">
+                          <Link to={`/reservations/${reservation.reservation_id}/seat`}>
+                            <button type="button" className="btn btn-sm btn-secondary table-button">Seat</button>
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <div className="col pr-0">
+              <table className="table table-striped table-bordered">
+                <caption><h3>Tables</h3></caption>
+                <thead className="table-secondary">
+                  <tr>
+                    <th scope="col">Table Name</th>
+                    <th scope="col">Capacity</th>
+                    <th scope="col">Availability</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tables.map((table) => {
+                    return (
+                      <tr key={table.table_id}>
+                        <td>{table.table_name}</td>
+                        <td>{table.capacity}</td>
+                        {table.reservation_id &&
+                          <td data-table-id-status={table.table_id}>Occupied</td>}
+                        {!table.reservation_id &&
+                          <td data-table-id-status={table.table_id}>Free</td>}
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
-      <ErrorAlert error={reservationsError} />
+      <ErrorAlert error={error} />
     </main>
   );
 }

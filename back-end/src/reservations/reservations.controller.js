@@ -4,6 +4,16 @@ const { isDate, isTime, isNumber, isNotTuesday, isFuture, makeDateObjects, isOpe
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 
+async function reservationExists(req, res, next) {
+  const reservation = await service.getReservation(req.params.reservation_id);
+  if (reservation) {
+    res.locals.reservation = reservation;
+    next();
+  } else {
+    next(`Reservation with id ${reservation_id} does not exist.`)
+  }
+}
+
 // Method functions
 async function create(req, res) {
   const data = await service.create(req.body.data);
@@ -16,8 +26,13 @@ async function listByDate(req, res) {
   res.json({ data });
 }
 
+function getReservation(req, res) {
+  const data = res.locals.reservation;
+  res.json({ data });
+}
+
 module.exports = {
-  listByDate,
+  listByDate: asyncErrorBoundary(listByDate),
   create: [
     hasProperties("first_name", "last_name", "mobile_number", "reservation_date", "reservation_time", "people"),
     isDate(),
@@ -28,5 +43,6 @@ module.exports = {
     isFuture(),
     isOpen(),
     asyncErrorBoundary(create)
-  ]
+  ],
+  getReservation: [asyncErrorBoundary(reservationExists), getReservation]
 };

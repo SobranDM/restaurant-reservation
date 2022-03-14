@@ -13,5 +13,6 @@ function list() {
 }
 
 module.exports = {
-  create
+  create,
+  list
 }
