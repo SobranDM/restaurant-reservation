@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import { TableOfTables } from "../tables/TableOfTables";
 import { today, previous, next } from "../utils/date-time";
 
 import "./Dashboard.css";
@@ -105,32 +106,7 @@ function Dashboard() {
                 </tbody>
               </table>
             </div>
-            <div className="col pr-0">
-              <table className="table table-striped table-bordered">
-                <caption><h3>Tables</h3></caption>
-                <thead className="table-secondary">
-                  <tr>
-                    <th scope="col">Table Name</th>
-                    <th scope="col">Capacity</th>
-                    <th scope="col">Availability</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tables.map((table) => {
-                    return (
-                      <tr key={table.table_id}>
-                        <td>{table.table_name}</td>
-                        <td>{table.capacity}</td>
-                        {table.reservation_id &&
-                          <td data-table-id-status={table.table_id}>Occupied</td>}
-                        {!table.reservation_id &&
-                          <td data-table-id-status={table.table_id}>Free</td>}
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
+            <TableOfTables tables={tables} />
           </div>
         </div>
       </div>
