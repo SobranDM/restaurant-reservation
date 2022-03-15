@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
-import { listTables, getReservation } from "../utils/api";
+import { listTables, getReservation, updateTable } from "../utils/api";
 import { TableOfTables } from "../tables/TableOfTables";
 
 export const SeatReservation = () => {
@@ -26,6 +26,7 @@ export const SeatReservation = () => {
   function handleSubmit(event) {
     try {
       event.preventDefault();
+      
     } catch (error) {
       setError(error.message);
     }
