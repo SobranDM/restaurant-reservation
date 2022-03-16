@@ -1,16 +1,7 @@
 const service = require("./tables.service");
 const hasProperties = require("../utils/hasProperties");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-
-async function tableExists(req, res) {
-  const table = await service.read(req.params.table_id);
-  if (table) {
-    res.locals.table = table;
-    next();
-  } else {
-    next(`Table with id ${table_id} does not exist.`);
-  }
-}
+const { isOccupied, checkCapacity, tableExists, reservationExists } = require("../utils/tableValidation");
 
 // Method functions
 async function create(req, res) {
@@ -24,8 +15,9 @@ async function list(req, res) {
 }
 
 async function update(req, res) {
-  const table_id = req.params.table_id;
-  const data = await service.update(req.body.data);
+  const data = res.locals.table;
+  res.locals.table.reservation_id = res.locals.reservation.reservation_id;
+  await service.update(res.locals.table);
   res.json({ data });
 }
 
@@ -35,5 +27,11 @@ module.exports = {
     asyncErrorBoundary(create)
   ],
   list: asyncErrorBoundary(list),
-  update: [ asyncErrorBoundary(tableExists), asyncErrorBoundary(update) ]
+  update: [
+    asyncErrorBoundary(tableExists()),
+    asyncErrorBoundary(reservationExists()),
+    isOccupied(),
+    checkCapacity(),
+    asyncErrorBoundary(update)
+  ]
 }

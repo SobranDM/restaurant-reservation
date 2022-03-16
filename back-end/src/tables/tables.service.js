@@ -16,14 +16,15 @@ function read(table_id) {
   return knex("tables")
     .select("*")
     .where({ table_id })
-    .then((table) => table[0]);
+    .first();
 }
 
 function update(updatedTable) {
   return knex("tables")
     .select("*")
     .where({ table_id: updatedTable.table_id })
-    .update(updatedTable, "*");
+    .update(updatedTable, "*")
+    .returning("*");
 }
 
 module.exports = {

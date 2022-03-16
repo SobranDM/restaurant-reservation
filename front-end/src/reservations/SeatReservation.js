@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import ErrorAlert from "../layout/ErrorAlert";
-import { listTables, getReservation, updateTable } from "../utils/api";
+import { listTables, getReservation, seatTable } from "../utils/api";
 import { TableOfTables } from "../tables/TableOfTables";
 
 export const SeatReservation = () => {
   const [reservation, setReservation] = useState({});
   const [tables, setTables] = useState([]);
-  const [error, setError] = useState(null);
+  const [selectValue, setSelectValue] = useState({})
+  const [errorMessage, setErrorMessage] = useState(null);
   const reservation_id = useParams();
   const history = useHistory();
 
@@ -15,20 +15,23 @@ export const SeatReservation = () => {
 
   function loadSeating({ reservation_id }) {
     const abortController = new AbortController();
-    setError(null);
-    listTables(abortController.signal).then(setTables).catch(setError);
+    setErrorMessage(null);
+    listTables(abortController.signal).then(setTables).catch(setErrorMessage);
     getReservation(reservation_id, abortController.signal)
       .then(setReservation)
-      .catch(setError);
+      .catch(setErrorMessage);
     return () => abortController.abort();
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     try {
       event.preventDefault();
-      
+      const abortController = new AbortController();
+      await seatTable(reservation_id, selectValue, abortController.signal).then(() => {
+        history.push("/dashboard");
+      })
     } catch (error) {
-      setError(error.message);
+      setErrorMessage(error.message);
     }
   }
 
@@ -36,10 +39,16 @@ export const SeatReservation = () => {
     history.goBack();
   }
 
+  function handleChange({target}) {
+    setSelectValue(target.value);
+  }
+
   return (
     <main>
       <h1 className="my-3">Seat Party</h1>
-      {error && <ErrorAlert error={error} />}
+      {errorMessage && (
+        <h5 className="alert alert-danger mx-1">{errorMessage}</h5>
+      )}
       <div className="d-md-flex flex-column">
         <div className="constainer-fluid">
           <div className="row align-items-start px-3">
@@ -69,7 +78,11 @@ export const SeatReservation = () => {
                     <td>
                       <select
                         className="form-select"
-                        aria-label="Select Table">
+                        aria-label="Select Table"
+                        id="tableSelect"
+                        name="tableSelect"
+                        onChange={handleChange}
+                        value={selectValue}>
                         <option value="">
                           Select a table
                         </option>
@@ -77,7 +90,7 @@ export const SeatReservation = () => {
                           return (
                             <option
                               key={table.table_id}
-                              value={table}>
+                              value={table.table_id}>
                               Table{" "}
                               {table.table_name} -{" "}
                               {table.capacity}{" "}
