@@ -27,9 +27,17 @@ function update(updatedTable) {
     .returning("*");
 }
 
+function destroy(updatedTable) {
+  return knex("tables")
+    .select("*")
+    .where({ table_id: updatedTable.table_id })
+    .update(updatedTable, "*");
+}
+
 module.exports = {
   create,
   list,
   update,
-  read
+  read,
+  destroy
 }

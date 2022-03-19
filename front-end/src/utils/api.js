@@ -110,3 +110,14 @@ export async function seatTable(reservation_id, table_id, signal) {
   }
   return await fetchJson(url, options, {});
 }
+
+export async function freeTable(table_id, signal) {
+  const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
+  const options = {
+    method: "DELETE",
+    headers,
+    body: JSON.stringify({ data: {} }),
+    signal
+  }
+  return await fetchJson(url, options, {});
+}

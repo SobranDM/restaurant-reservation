@@ -9,7 +9,7 @@ function tableExists() {
         res.locals.table = table;
         next();
       } else {
-        const error = new Error(`Table with id ${table_id} does not exist.`);
+        const error = new Error(`Table with id ${req.params.table_id} does not exist.`);
         error.status = 404;
         throw error;
       }
@@ -68,6 +68,21 @@ function reservationExists() {
     }
   }
 }
+function isFree() {
+  return function (req, res, next) {
+    try {
+      if (res.locals.table.reservation_id) {
+        next();
+      } else {
+        const error = new Error(`Table with id ${res.locals.table.table_id} is not occupied!`);
+        error.status = 400;
+        throw error;
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+}
 
 function isOccupied() {
   return function (req, res, next) {
@@ -112,5 +127,6 @@ module.exports = {
   tableExists,
   reservationExists,
   isNumber,
-  isLongEnough
+  isLongEnough,
+  isFree
 }

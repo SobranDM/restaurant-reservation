@@ -6,12 +6,13 @@ import { TableOfTables } from "../tables/TableOfTables";
 export const SeatReservation = () => {
   const [reservation, setReservation] = useState({});
   const [tables, setTables] = useState([]);
-  const [selectValue, setSelectValue] = useState({})
+  const [selectValue, setSelectValue] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
+  const [tableChange, triggerTableChange] = useState(0);
   const reservation_id = useParams();
   const history = useHistory();
 
-  useEffect(() => loadSeating(reservation_id), [reservation_id]);
+  useEffect(() => loadSeating(reservation_id), [reservation_id, tableChange]);
 
   function loadSeating({ reservation_id }) {
     const abortController = new AbortController();
@@ -118,7 +119,7 @@ export const SeatReservation = () => {
                 </button>
               </div>
             </div>
-            <TableOfTables tables={tables} />
+            <TableOfTables tables={tables} tableChange={tableChange} triggerTableChange={triggerTableChange} />
           </div>
         </div>
       </div>

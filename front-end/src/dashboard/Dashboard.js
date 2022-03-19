@@ -18,6 +18,7 @@ function Dashboard() {
   const [reservations, setReservations] = useState([]);
   const [tables, setTables] = useState([]);
   const [error, setError] = useState(null);
+  const [tableChange, triggerTableChange] = useState(0);
   const search = useLocation().search;
   const dateParam = new URLSearchParams(search).get("date");
 
@@ -31,7 +32,7 @@ function Dashboard() {
   let previousDay = previous(date);
   let nextDay = next(date);
 
-  useEffect(() => loadDashboard(date), [date]);
+  useEffect(() => loadDashboard(date), [date, tableChange]);
 
   function loadDashboard(date) {
     const abortController = new AbortController();
@@ -106,7 +107,7 @@ function Dashboard() {
                 </tbody>
               </table>
             </div>
-            <TableOfTables tables={tables} />
+            <TableOfTables tables={tables} tableChange={tableChange} triggerTableChange={triggerTableChange} />
           </div>
         </div>
       </div>
