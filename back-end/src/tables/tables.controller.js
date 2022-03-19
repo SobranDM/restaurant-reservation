@@ -1,7 +1,7 @@
 const service = require("./tables.service");
 const hasProperties = require("../utils/hasProperties");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-const { isOccupied, checkCapacity, tableExists, reservationExists } = require("../utils/tableValidation");
+const { isOccupied, checkCapacity, tableExists, reservationExists, isNumber, isLongEnough } = require("../utils/tableValidation");
 
 // Method functions
 async function create(req, res) {
@@ -24,10 +24,13 @@ async function update(req, res) {
 module.exports = {
   create: [
     hasProperties("table_name", "capacity"),
+    isNumber(),
+    isLongEnough(),
     asyncErrorBoundary(create)
   ],
   list: asyncErrorBoundary(list),
   update: [
+    hasProperties("reservation_id"),
     asyncErrorBoundary(tableExists()),
     asyncErrorBoundary(reservationExists()),
     isOccupied(),

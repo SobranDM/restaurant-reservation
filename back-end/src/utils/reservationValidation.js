@@ -46,7 +46,7 @@ function isNumber() {
       if(typeof req.body.data.people === "number") {
         next();
       } else {
-        const error = new Error(`Field: "people" is not a valid number`);
+        const error = new Error(`Field: "people" is not a valid number.`);
         error.status = 400;
         throw error;
       }

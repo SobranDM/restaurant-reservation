@@ -19,6 +19,38 @@ function tableExists() {
   }
 }
 
+function isNumber() {
+  return function (req, res, next) {
+    try {
+      if (typeof req.body.data.capacity === "number") {
+        next();
+      } else {
+        const error = new Error(`Field: "capacity" is not a valid number.`);
+        error.status = 400;
+        throw error;
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
+function isLongEnough() {
+  return function (req, res, next) {
+    try {
+      if (req.body.data.table_name.length >= 2) {
+        next();
+      } else {
+        const error = new Error(`Field: table_name must be at least 2 characters.`);
+        error.status = 400;
+        throw error;
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
 function reservationExists() {
   return async function (req, res, next) {
     try {
@@ -78,5 +110,7 @@ module.exports = {
   isOccupied,
   checkCapacity,
   tableExists,
-  reservationExists
+  reservationExists,
+  isNumber,
+  isLongEnough
 }
