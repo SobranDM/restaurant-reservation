@@ -6,7 +6,7 @@ import { createTable } from "../utils/api.js";
 export const CreateTable = () => {
   const history = useHistory();
   const [errorMessage, setErrorMessage] = useState("");
-  const [formData, setFormData] = useState({ table_name: "", capacity: 1 });
+  const [formData, setFormData] = useState({ table_name: "", capacity: 0 });
 
   async function handleSubmit(event) {
     event.preventDefault();

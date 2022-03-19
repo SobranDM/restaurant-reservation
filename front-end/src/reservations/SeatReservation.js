@@ -39,7 +39,7 @@ export const SeatReservation = () => {
     history.goBack();
   }
 
-  function handleChange({target}) {
+  function handleChange({ target }) {
     setSelectValue(target.value);
   }
 
@@ -79,8 +79,8 @@ export const SeatReservation = () => {
                       <select
                         className="form-select"
                         aria-label="Select Table"
-                        id="tableSelect"
-                        name="tableSelect"
+                        id="table_id"
+                        name="table_id"
                         onChange={handleChange}
                         value={selectValue}>
                         <option value="">
@@ -91,10 +91,8 @@ export const SeatReservation = () => {
                             <option
                               key={table.table_id}
                               value={table.table_id}>
-                              Table{" "}
                               {table.table_name} -{" "}
-                              {table.capacity}{" "}
-                              person(s)
+                              {table.capacity}
                             </option>
                           );
                         })}
