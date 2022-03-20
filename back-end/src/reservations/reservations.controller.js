@@ -1,18 +1,7 @@
 const service = require("./reservations.service");
 const hasProperties = require("../utils/hasProperties");
-const { isDate, isTime, isNumber, isNotTuesday, isFuture, makeDateObjects, isOpen } = require("../utils/reservationValidation");
+const { isDate, isTime, isNumber, isNotTuesday, isFuture, makeDateObjects, isOpen, reservationExists } = require("../utils/reservationValidation");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-
-
-async function reservationExists(req, res, next) {
-  const reservation = await service.getReservation(req.params.reservation_id);
-  if (reservation) {
-    res.locals.reservation = reservation;
-    next();
-  } else {
-    next(`Reservation with id ${reservation_id} does not exist.`)
-  }
-}
 
 // Method functions
 async function create(req, res) {
@@ -44,5 +33,5 @@ module.exports = {
     isOpen(),
     asyncErrorBoundary(create)
   ],
-  getReservation: [asyncErrorBoundary(reservationExists), getReservation]
+  getReservation: [asyncErrorBoundary(reservationExists()), getReservation]
 };

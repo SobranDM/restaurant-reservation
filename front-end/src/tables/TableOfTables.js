@@ -49,13 +49,13 @@ export const TableOfTables = ({ tables, tableChange, triggerTableChange }) => {
                   </td>
                 )}
                 <td className="button-data">
-                  <button
+                  {table.reservation_id && <button
                     type="button"
                     className="btn btn-sm btn-secondary table-button"
                     data-table-id-finish={table.table_id}
                     onClick={() => finishHandler(table.table_id)}>
                     Finish
-                  </button>
+                  </button>}
                 </td>
               </tr>
             );

@@ -86,6 +86,7 @@ function reservationExists() {
     }
   }
 }
+
 function isFree() {
   return function (req, res, next) {
     try {

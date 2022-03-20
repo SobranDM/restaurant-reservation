@@ -1,4 +1,6 @@
 
+const service = require("../reservations/reservations.service");
+
 function isDate() {
   return function (req, res, next) {
     try {
@@ -43,7 +45,7 @@ function makeDateObjects() {
 function isNumber() {
   return function (req, res, next) {
     try {
-      if(typeof req.body.data.people === "number") {
+      if (typeof req.body.data.people === "number") {
         next();
       } else {
         const error = new Error(`Field: "people" is not a valid number.`);
@@ -106,6 +108,24 @@ function isOpen() {
   }
 }
 
+function reservationExists() {
+  return async function (req, res, next) {
+    try {
+      const reservation = await service.getReservation(req.params.reservation_id);
+      if (reservation) {
+        res.locals.reservation = reservation;
+        next();
+      } else {
+        const error = new Error(`Reservation with id ${req.params.reservation_id} does not exist.`);
+        error.status = 404;
+        throw error;
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
 module.exports = {
   isDate,
   isTime,
@@ -113,5 +133,6 @@ module.exports = {
   isNotTuesday,
   isFuture,
   isOpen,
-  makeDateObjects
+  makeDateObjects,
+  reservationExists
 }
