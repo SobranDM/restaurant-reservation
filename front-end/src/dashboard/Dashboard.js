@@ -97,11 +97,11 @@ function Dashboard() {
                         </td>
                         <td>{reservation.people}</td>
                         <td>{reservation.mobile_number}</td>
-                        <td>{reservation.status}</td>
+                        <td data-reservation-id-status={reservation.reservation_id}>{reservation.status}</td>
                         <td className="button-data">
-                          <Link to={`/reservations/${reservation.reservation_id}/seat`}>
+                          {reservation.status === 'booked' && <Link to={`/reservations/${reservation.reservation_id}/seat`}>
                             <button type="button" className="btn btn-sm btn-secondary table-button">Seat</button>
-                          </Link>
+                          </Link>}
                         </td>
                       </tr>
                     );

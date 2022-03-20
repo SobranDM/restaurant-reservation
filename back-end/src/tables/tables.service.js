@@ -19,12 +19,18 @@ function read(table_id) {
     .first();
 }
 
-function update(updatedTable) {
-  return knex("tables")
-    .select("*")
-    .where({ table_id: updatedTable.table_id })
-    .update(updatedTable, "*")
-    .returning("*");
+async function update(table, reservation) {
+    await knex.transaction(async trx => {
+      await knex("tables")
+      .select("*")
+      .where({ table_id: table.table_id })
+      .update(table, "*")
+
+      await knex("reservations")
+      .select("*")
+      .where({ reservation_id: reservation.reservation_id })
+      .update(reservation)
+    })
 }
 
 function destroy(updatedTable) {

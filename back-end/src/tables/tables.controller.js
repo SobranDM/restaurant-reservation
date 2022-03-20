@@ -15,9 +15,9 @@ async function list(req, res) {
 }
 
 async function update(req, res) {
-  const data = res.locals.table;
   res.locals.table.reservation_id = res.locals.reservation.reservation_id;
-  await service.update(res.locals.table);
+  res.locals.reservation.status = 'seated';
+  const data = await service.update(res.locals.table, res.locals.reservation);
   res.json({ data });
 }
 
