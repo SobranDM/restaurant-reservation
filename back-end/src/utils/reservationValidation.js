@@ -125,6 +125,57 @@ function reservationExists() {
   }
 }
 
+function reservationIsBooked() {
+  return function (req, res, next) {
+    try {
+      const status = req.body.data.status;
+      if (status === "booked" || status === undefined) {
+        next();
+      } else {
+        const error = new Error(`New reservation status must be 'booked'. ${status} is not a valid.`)
+        error.status = 400;
+        throw error;
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
+function statusIsValid() {
+  return function (req, res, next) {
+    try {
+      const status = req.body.data.status;
+      if (status === "booked" || status === "seated" || status === "finished") {
+        next();
+      } else {
+        const error = new Error(`Reservation status must be one of: booked, seated, finished. ${status} is not valid.`);
+        error.status = 400;
+        throw error;
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
+function alreadyFinished() {
+  return function (req, res, next) {
+    try {
+      const status = res.locals.reservation.status;
+      if (status != "finished") {
+        next();
+      } else {
+        const error = new Error(`Cannot change the status of a reservation that is already finished.`);
+        error.status = 400;
+        throw error;
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
 module.exports = {
   isDate,
   isTime,
@@ -133,5 +184,8 @@ module.exports = {
   isFuture,
   isOpen,
   makeDateObjects,
-  reservationExists
+  reservationExists,
+  reservationIsBooked,
+  statusIsValid,
+  alreadyFinished
 }

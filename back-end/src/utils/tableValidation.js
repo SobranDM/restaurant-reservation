@@ -140,6 +140,23 @@ function checkCapacity() {
   }
 }
 
+function isBooked() {
+  return function (req, res, next) {
+    try {
+      const status = res.locals.reservation.status;
+      if (status === "booked") {
+        next();
+      } else {
+        const error = new Error(`Reservation must be booked. Cannot seat a table that is already seated or finished.`);
+        error.status = 400;
+        throw error;
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
 module.exports = {
   isOccupied,
   checkCapacity,
@@ -148,5 +165,6 @@ module.exports = {
   isNumber,
   isLongEnough,
   isFree,
-  getResFromTable
+  getResFromTable,
+  isBooked
 }

@@ -1,6 +1,18 @@
 const service = require("./reservations.service");
 const hasProperties = require("../utils/hasProperties");
-const { isDate, isTime, isNumber, isNotTuesday, isFuture, makeDateObjects, isOpen, reservationExists } = require("../utils/reservationValidation");
+const {
+  isDate,
+  isTime,
+  isNumber,
+  isNotTuesday,
+  isFuture,
+  makeDateObjects,
+  isOpen,
+  reservationExists,
+  alreadyFinished,
+  reservationIsBooked,
+  statusIsValid,
+} = require("../utils/reservationValidation");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 function asDateString(date) {
@@ -21,7 +33,7 @@ async function listByDate(req, res) {
   if (!date) {
     date = asDateString(new Date());
   }
-  
+
   const data = await service.listByDate(date);
   res.json({ data });
 }
@@ -31,10 +43,24 @@ function getReservation(req, res) {
   res.json({ data });
 }
 
+async function updateStatus(req, res) {
+  const updatedReservation = res.locals.reservation;
+  updatedReservation.status = req.body.data.status;
+  const data = await service.update(updatedReservation);
+  res.status(200).json({ data });
+}
+
 module.exports = {
   listByDate: asyncErrorBoundary(listByDate),
   create: [
-    hasProperties("first_name", "last_name", "mobile_number", "reservation_date", "reservation_time", "people"),
+    hasProperties(
+      "first_name",
+      "last_name",
+      "mobile_number",
+      "reservation_date",
+      "reservation_time",
+      "people"
+    ),
     isDate(),
     isTime(),
     makeDateObjects(),
@@ -42,7 +68,14 @@ module.exports = {
     isNotTuesday(),
     isFuture(),
     isOpen(),
-    asyncErrorBoundary(create)
+    reservationIsBooked(),
+    asyncErrorBoundary(create),
   ],
-  getReservation: [asyncErrorBoundary(reservationExists()), getReservation]
+  getReservation: [asyncErrorBoundary(reservationExists()), getReservation],
+  updateStatus: [
+    asyncErrorBoundary(reservationExists()),
+    statusIsValid(),
+    alreadyFinished(),
+    asyncErrorBoundary(updateStatus),
+  ],
 };
