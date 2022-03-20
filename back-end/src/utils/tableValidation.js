@@ -51,6 +51,24 @@ function isLongEnough() {
   }
 }
 
+function getResFromTable() {
+  return async function (req, res, next) {
+    try {
+      const reservation = await resService.getReservation(res.locals.table.reservation_id);
+      if (reservation) {
+        res.locals.reservation = reservation;
+        next();
+      } else {
+        const error = new Error(`Reservation with id ${res.locals.table.reservation_id} does not exist.`);
+        error.status = 404;
+        throw error;
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
 function reservationExists() {
   return async function (req, res, next) {
     try {
@@ -128,5 +146,6 @@ module.exports = {
   reservationExists,
   isNumber,
   isLongEnough,
-  isFree
+  isFree,
+  getResFromTable
 }

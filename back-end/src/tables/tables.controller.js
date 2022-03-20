@@ -1,7 +1,7 @@
 const service = require("./tables.service");
 const hasProperties = require("../utils/hasProperties");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-const { isOccupied, checkCapacity, tableExists, reservationExists, isNumber, isLongEnough, isFree } = require("../utils/tableValidation");
+const { isOccupied, checkCapacity, tableExists, reservationExists, isNumber, isLongEnough, isFree, getResFromTable } = require("../utils/tableValidation");
 
 // Method functions
 async function create(req, res) {
@@ -23,7 +23,8 @@ async function update(req, res) {
 
 async function destroy(req, res) {
   res.locals.table.reservation_id = null;
-  const data = await service.destroy(res.locals.table);
+  res.locals.reservation.status = 'finished';
+  const data = await service.update(res.locals.table, res.locals.reservation);
   res.status(200).json({ data });
 }
 
@@ -43,5 +44,10 @@ module.exports = {
     checkCapacity(),
     asyncErrorBoundary(update)
   ],
-  delete: [asyncErrorBoundary(tableExists()), isFree(), asyncErrorBoundary(destroy)]
+  delete: [
+    asyncErrorBoundary(tableExists()),
+    asyncErrorBoundary(getResFromTable()),
+    isFree(),
+    asyncErrorBoundary(destroy)
+  ]
 }
