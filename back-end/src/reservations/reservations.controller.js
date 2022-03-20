@@ -27,13 +27,15 @@ async function create(req, res) {
   res.status(201).json({ data });
 }
 
-async function listByDate(req, res) {
-  const { date } = req.query;
-
+async function list(req, res) {
+  const { date, mobile_number } = req.query;
+  if (mobile_number) {
+    const data = await service.listByNumber(mobile_number);
+    return res.json({ data });
+  }
   if (!date) {
     date = asDateString(new Date());
   }
-
   const data = await service.listByDate(date);
   res.json({ data });
 }
@@ -51,7 +53,7 @@ async function updateStatus(req, res) {
 }
 
 module.exports = {
-  listByDate: asyncErrorBoundary(listByDate),
+  list: asyncErrorBoundary(list),
   create: [
     hasProperties(
       "first_name",
