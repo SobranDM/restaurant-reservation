@@ -94,7 +94,6 @@ function isOpen() {
   return function (req, res, next) {
     try {
       const submitTime = `${res.locals.submitDate.getHours()}:${res.locals.submitDate.getMinutes()}`;
-      console.log(submitTime)
       if (submitTime >= "10:30" && submitTime <= "21:30") {
         next();
       } else {
