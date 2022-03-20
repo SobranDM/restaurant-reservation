@@ -75,8 +75,6 @@ function isNotTuesday() {
 function isFuture() {
   return function (req, res, next) {
     try {
-      console.log(res.locals.submitDate);
-      console.log(res.locals.currentDate);
       if (res.locals.submitDate >= res.locals.currentDate) {
         next();
       } else {
