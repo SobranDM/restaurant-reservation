@@ -39,15 +39,15 @@ module.exports = {
   update: [
     hasProperties("reservation_id"),
     asyncErrorBoundary(tableExists()),
-    asyncErrorBoundary(reservationExists()),
     isOccupied(),
+    asyncErrorBoundary(reservationExists()),
     checkCapacity(),
     asyncErrorBoundary(update)
   ],
   delete: [
     asyncErrorBoundary(tableExists()),
-    asyncErrorBoundary(getResFromTable()),
     isFree(),
+    asyncErrorBoundary(getResFromTable()),
     asyncErrorBoundary(destroy)
   ]
 }

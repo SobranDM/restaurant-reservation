@@ -3,6 +3,12 @@ const hasProperties = require("../utils/hasProperties");
 const { isDate, isTime, isNumber, isNotTuesday, isFuture, makeDateObjects, isOpen, reservationExists } = require("../utils/reservationValidation");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
+function asDateString(date) {
+  return `${date.getFullYear().toString(10)}-${(date.getMonth() + 1)
+    .toString(10)
+    .padStart(2, "0")}-${date.getDate().toString(10).padStart(2, "0")}`;
+}
+
 // Method functions
 async function create(req, res) {
   const data = await service.create(req.body.data);
@@ -11,6 +17,11 @@ async function create(req, res) {
 
 async function listByDate(req, res) {
   const { date } = req.query;
+
+  if (!date) {
+    date = asDateString(new Date());
+  }
+  
   const data = await service.listByDate(date);
   res.json({ data });
 }

@@ -8,11 +8,11 @@ function create(newReservation) {
     .then((createdRecords) => createdRecords[0]);
 }
 
-function listByDate(date) {
+function listByDate(listDate) {
   return knex("reservations")
     .select("*")
-    .where({ reservation_date: date })
-    .whereNot("status", "finished")
+    .whereNotIn("status", ["finished", "cancelled"])
+    .andWhere({ reservation_date: listDate })
     .orderBy("reservation_time");
 }
 
