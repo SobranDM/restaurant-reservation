@@ -73,6 +73,11 @@ export async function getReservation(reservation_id, signal) {
   return await fetchJson(url, { headers, signal }, []);
 }
 
+export async function searchReservations(mobile_number, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations?mobile_number=${mobile_number}`);
+  return await fetchJson(url, { headers, signal }, []);
+}
+
 export async function listTables(signal) {
   const url = new URL(`${API_BASE_URL}/tables`);
   return await fetchJson(url, { headers, signal }, []);
