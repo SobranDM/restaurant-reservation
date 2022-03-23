@@ -22,7 +22,6 @@ export const SearchReservations = () => {
     event.preventDefault();
     try {
       searchReservations(mobileNumber).then((response) => {
-        console.log(mobileNumber);
         setReservations(response);
         triggerUpdate(response.length);
       });

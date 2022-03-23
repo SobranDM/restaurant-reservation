@@ -52,6 +52,11 @@ async function updateStatus(req, res) {
   res.status(200).json({ data });
 }
 
+async function update(req, res) {
+  const data = await service.update(req.body.data);
+  res.json({ data });
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
@@ -80,4 +85,24 @@ module.exports = {
     alreadyFinished(),
     asyncErrorBoundary(updateStatus),
   ],
+  update: [
+    hasProperties(
+      "first_name",
+      "last_name",
+      "mobile_number",
+      "reservation_date",
+      "reservation_time",
+      "people"
+    ),
+    reservationExists(),
+    isDate(),
+    isTime(),
+    makeDateObjects(),
+    isNumber(),
+    isNotTuesday(),
+    isFuture(),
+    isOpen(),
+    reservationIsBooked(),
+    asyncErrorBoundary(update)
+  ]
 };

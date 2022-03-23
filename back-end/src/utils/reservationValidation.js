@@ -146,10 +146,10 @@ function statusIsValid() {
   return function (req, res, next) {
     try {
       const status = req.body.data.status;
-      if (status === "booked" || status === "seated" || status === "finished") {
+      if (status === "booked" || status === "seated" || status === "finished" || status === "cancelled") {
         next();
       } else {
-        const error = new Error(`Reservation status must be one of: booked, seated, finished. ${status} is not valid.`);
+        const error = new Error(`Reservation status must be one of: booked, seated, finished, cancelled. ${status} is not valid.`);
         error.status = 400;
         throw error;
       }

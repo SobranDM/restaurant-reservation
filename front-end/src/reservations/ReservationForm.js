@@ -14,6 +14,7 @@ export const ReservationForm = ({ formData, setFormData }) => {
           name="first_name"
           onChange={handleChange}
           placeholder="First Name"
+          value={formData.first_name}
         />
         <input
           type="string"
@@ -21,6 +22,7 @@ export const ReservationForm = ({ formData, setFormData }) => {
           name="last_name"
           onChange={handleChange}
           placeholder="Last Name"
+          value={formData.last_name}
         />
       </div>
       <div className="d-flex">
@@ -30,6 +32,7 @@ export const ReservationForm = ({ formData, setFormData }) => {
           name="people"
           onChange={handleChange}
           placeholder="People"
+          value={formData.people}
         />
         <input
           type="string"
@@ -37,6 +40,7 @@ export const ReservationForm = ({ formData, setFormData }) => {
           name="mobile_number"
           onChange={handleChange}
           placeholder="Mobile Number"
+          value={formData.mobile_number}
         />
       </div>
       <div className="d-flex">
@@ -47,6 +51,7 @@ export const ReservationForm = ({ formData, setFormData }) => {
           placeholder="YYYY-MM-DD"
           pattern="\d{4}-\d{2}-\d{2}"
           onChange={handleChange}
+          value={formData.reservation_date}
         />
         <input
           type="time"
@@ -55,6 +60,7 @@ export const ReservationForm = ({ formData, setFormData }) => {
           placeholder="HH:MM"
           pattern="[0-9]{2}:[0-9]{2}"
           onChange={handleChange}
+          value={formData.reservation_time}
         />
       </div>
     </form>

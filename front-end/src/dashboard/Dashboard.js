@@ -74,7 +74,7 @@ function Dashboard() {
         </div>
         <div className="container-fluid">
           <div className="row align-items-start">
-            <ReservationsTable reservations={reservations} />
+            <ReservationsTable reservations={reservations} table={tableChange} triggerTableChange={triggerTableChange} />
             <TableOfTables tables={tables} tableChange={tableChange} triggerTableChange={triggerTableChange} />
           </div>
         </div>
