@@ -24,16 +24,19 @@ export const SeatReservation = () => {
     return () => abortController.abort();
   }
 
-  async function handleSubmit(event) {
-    try {
-      event.preventDefault();
-      const abortController = new AbortController();
-      await seatTable(reservation_id, selectValue, abortController.signal).then(() => {
-        history.push("/dashboard");
-      })
-    } catch (error) {
-      setErrorMessage(error.message);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const abortController = new AbortController();
+    async function seatReservation() {
+      try {
+        await seatTable(reservation_id, selectValue, abortController.signal);
+        history.push(`/dashboard?date=${reservation.reservation_date}`);
+      } catch (error) {
+        setErrorMessage(error.message);
+      }
     }
+    seatReservation();
+    return () => abortController.abort();
   }
 
   function handleCancel(event) {

@@ -6,7 +6,7 @@ import ErrorAlert from "../layout/ErrorAlert";
 
 export const EditReservation = () => {
   const history = useHistory();
-  const reservation_id = useParams();
+  const { reservation_id } = useParams();
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
     first_name: "",
@@ -18,30 +18,33 @@ export const EditReservation = () => {
     status: "booked"
   });
 
-  useEffect(() => {
-    async function loadReservation({ reservation_id }) {
+  useEffect(loadReservation, [reservation_id]);
+
+  function loadReservation() {
+    const abortController = new AbortController();
+    setErrorMessage(null);
+    console.log(reservation_id)
+    getReservation(reservation_id, abortController.signal)
+      .then(setFormData)
+      .catch(setErrorMessage);
+    return () => abortController.abort();
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const abortController = new AbortController();
+    async function sendUpdate() {
       try {
-        const abortController = new AbortController();
-        setErrorMessage(null);
-        const response = await getReservation(reservation_id, abortController.signal);
-        setFormData(response);
-        return () => abortController.abort();
+        let parsedForm = { ...formData, people: Number(formData.people) }
+        console.error(`FormDate: ${formData.reservation_date}`);
+        await updateReservation(parsedForm, abortController.signal);
+        history.push(`/dashboard?date=${formData.reservation_date}`);
       } catch (error) {
+        console.error(error);
         setErrorMessage(error);
       }
     }
-
-    loadReservation(reservation_id)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reservation_id]);
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    const abortController = new AbortController();
-    let parsedForm = { ...formData, people: Number(formData.people) }
-    updateReservation(parsedForm, abortController.signal)
-    .then(() => history.push(`/dashboard?date=${formData.reservation_date}`))
-    .catch(setErrorMessage)
+    sendUpdate();
     return () => abortController.abort();
   }
 
@@ -66,7 +69,7 @@ export const EditReservation = () => {
           type="submit"
           className="btn btn-primary"
           name="submit"
-          onClick={(event) => handleSubmit(event)}>
+          onClick={handleSubmit}>
           Submit
         </button>
       </div>

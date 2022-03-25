@@ -132,7 +132,7 @@ function reservationIsBooked() {
       if (status === "booked" || status === undefined) {
         next();
       } else {
-        const error = new Error(`New reservation status must be 'booked'. ${status} is not a valid.`)
+        const error = new Error(`New reservation status must be 'booked'. ${status} is not valid.`)
         error.status = 400;
         throw error;
       }

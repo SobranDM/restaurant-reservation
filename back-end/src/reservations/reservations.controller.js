@@ -100,8 +100,6 @@ module.exports = {
     makeDateObjects(),
     isNumber(),
     isNotTuesday(),
-    isFuture(),
-    isOpen(),
     reservationIsBooked(),
     asyncErrorBoundary(update)
   ]

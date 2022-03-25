@@ -1,4 +1,5 @@
 const service = require("./tables.service");
+const resService = require("../reservations/reservations.service");
 const hasProperties = require("../utils/hasProperties");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const {
@@ -27,14 +28,17 @@ async function list(req, res) {
 async function update(req, res) {
     res.locals.table.reservation_id = res.locals.reservation.reservation_id;
     res.locals.reservation.status = "seated";
-    const data = await service.update(res.locals.table, res.locals.reservation);
-    res.json({ data });
+    let data = { table: await service.update(res.locals.table) };
+
+    data.reservation = await resService.update(res.locals.reservation);
+    res.status(200).json({ data });
 }
 
 async function destroy(req, res) {
     res.locals.table.reservation_id = null;
     res.locals.reservation.status = "finished";
-    const data = await service.update(res.locals.table, res.locals.reservation);
+    const data = { table: await service.update(res.locals.table) };
+    data.reservation = await resService.update(res.locals.reservation);
     res.status(200).json({ data });
 }
 

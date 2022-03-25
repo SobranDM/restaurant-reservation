@@ -5,11 +5,11 @@ export const ReservationsTable = ({ reservations, tableChange, triggerTableChang
   const [errorMessage, setErrorMessage] = useState(null);
   const { updateStatus } = require("../utils/api");
 
-  async function cancelHandler(reservation_id) {
+  function cancelHandler(reservation_id) {
     try {
       if (window.confirm("Do you want to cancel this reservation? This cannot be undone.")) {
         const abortController = new AbortController();
-        await updateStatus("cancelled", reservation_id, abortController.signal).then(() => triggerTableChange(tableChange + 1))
+        updateStatus("cancelled", reservation_id, abortController.signal).then(() => triggerTableChange(tableChange + 1))
       }
     } catch (error) {
       setErrorMessage(error.message);
@@ -26,7 +26,8 @@ export const ReservationsTable = ({ reservations, tableChange, triggerTableChang
         <thead className="table-secondary">
           <tr>
             <th scope="col">Time</th>
-            <th scope="col">Name</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
             <th scope="col">People</th>
             <th scope="col">Mobile Number</th>
             <th scope="col">Status</th>
@@ -38,10 +39,8 @@ export const ReservationsTable = ({ reservations, tableChange, triggerTableChang
             return (
               <tr key={reservation.reservation_id}>
                 <td>{reservation.reservation_time}</td>
-                <td>
-                  {reservation.first_name}{" "}
-                  {reservation.last_name}
-                </td>
+                <td>{reservation.first_name}</td>
+                <td>{reservation.last_name}</td>
                 <td>{reservation.people}</td>
                 <td>{reservation.mobile_number}</td>
                 <td data-reservation-id-status={reservation.reservation_id}>{reservation.status}</td>

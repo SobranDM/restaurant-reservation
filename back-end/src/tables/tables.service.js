@@ -19,18 +19,12 @@ function read(table_id) {
     .first();
 }
 
-async function update(table, reservation) {
-  await knex.transaction(async trx => {
-    await knex("tables")
+function update(table) {
+    return knex("tables")
       .select("*")
       .where({ table_id: table.table_id })
       .update(table, "*")
-
-    await knex("reservations")
-      .select("*")
-      .where({ reservation_id: reservation.reservation_id })
-      .update(reservation)
-  });
+      .then((records) => records[0])
 }
 
 module.exports = {
