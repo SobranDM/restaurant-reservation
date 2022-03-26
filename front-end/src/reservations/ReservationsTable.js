@@ -44,16 +44,16 @@ export const ReservationsTable = ({ reservations, tableChange, triggerTableChang
                 <td data-reservation-id-status={reservation.reservation_id}>{reservation.status}</td>
                 <td className="button-data">
                   <div className="btn-group-sm" role="group">
-                    <button type="button" className="btn btn-sm btn-danger mr-1" name="cancel" data-reservation-id-cancel={reservation.reservation_id} onClick={() => cancelHandler(reservation.reservation_id)}>
+                    <button type="button" className="btn btn-sm btn-danger mr-1 my-1" name="cancel" data-reservation-id-cancel={reservation.reservation_id} onClick={() => cancelHandler(reservation.reservation_id)}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                       </svg>
                     </button>
                     <Link to={`/reservations/${reservation.reservation_id}/edit`}>
-                      <button type="button" className="btn btn-sm btn-secondary">Edit</button>
+                      <button type="button" className="btn btn-sm btn-secondary my-1">Edit</button>
                     </Link>
                     {reservation.status === 'booked' && <Link to={`/reservations/${reservation.reservation_id}/seat`}>
-                      <button type="button" className="btn btn-sm btn-primary ml-1">Seat</button>
+                      <button type="button" className="btn btn-sm btn-primary ml-1 my-1">Seat</button>
                     </Link>}
                   </div>
                 </td>

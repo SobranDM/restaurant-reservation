@@ -40,7 +40,7 @@ function Menu() {
               &nbsp;New Reservation
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item mb-3">
             <Link className="nav-link" to="/tables/new">
               <span className="oi oi-layers" />
               &nbsp;New Table
