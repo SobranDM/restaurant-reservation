@@ -40,7 +40,7 @@ async function list(req, res) {
   res.json({ data });
 }
 
-function getReservation(req, res) {
+function read(req, res) {
   const data = res.locals.reservation;
   res.json({ data });
 }
@@ -78,7 +78,7 @@ module.exports = {
     reservationIsBooked(),
     asyncErrorBoundary(create),
   ],
-  getReservation: [asyncErrorBoundary(reservationExists()), getReservation],
+  read: [asyncErrorBoundary(reservationExists()), read],
   updateStatus: [
     asyncErrorBoundary(reservationExists()),
     statusIsValid(),

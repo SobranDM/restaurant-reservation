@@ -36,11 +36,9 @@ export const EditReservation = () => {
     async function sendUpdate() {
       try {
         let parsedForm = { ...formData, people: Number(formData.people) }
-        console.error(`FormDate: ${formData.reservation_date}`);
         await updateReservation(parsedForm, abortController.signal);
         history.push(`/dashboard?date=${formData.reservation_date}`);
       } catch (error) {
-        console.error(error);
         setErrorMessage(error);
       }
     }

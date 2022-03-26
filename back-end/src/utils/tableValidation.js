@@ -54,7 +54,7 @@ function isLongEnough() {
 function getResFromTable() {
   return async function (req, res, next) {
     try {
-      const reservation = await resService.getReservation(res.locals.table.reservation_id);
+      const reservation = await resService.read(res.locals.table.reservation_id);
       if (reservation) {
         res.locals.reservation = reservation;
         next();
@@ -72,7 +72,7 @@ function getResFromTable() {
 function reservationExists() {
   return async function (req, res, next) {
     try {
-      const reservation = await resService.getReservation(req.body.data.reservation_id);
+      const reservation = await resService.read(req.body.data.reservation_id);
       if (reservation) {
         res.locals.reservation = reservation;
         next();

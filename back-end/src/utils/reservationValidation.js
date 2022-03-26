@@ -110,7 +110,7 @@ function isOpen() {
 function reservationExists() {
   return async function (req, res, next) {
     try {
-      const reservation = await service.getReservation(req.params.reservation_id);
+      const reservation = await service.read(req.params.reservation_id);
       if (reservation) {
         res.locals.reservation = reservation;
         next();
