@@ -23,7 +23,6 @@ export const EditReservation = () => {
   function loadReservation() {
     const abortController = new AbortController();
     setErrorMessage(null);
-    console.log(reservation_id)
     getReservation(reservation_id, abortController.signal)
       .then(setFormData)
       .catch(setErrorMessage);
