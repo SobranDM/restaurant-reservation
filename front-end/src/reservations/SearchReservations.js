@@ -44,7 +44,7 @@ export const SearchReservations = () => {
           placeholder="Enter a customer's phone number"
           onChange={handleChange}
         />
-        <div className="btn-group ml-1">
+        <div className="btn-group ml-2 mr-3 mb-2">
           <button
             type="button"
             className="btn btn-secondary"
@@ -61,7 +61,7 @@ export const SearchReservations = () => {
           </button>
         </div>
       </div>
-      {update === 0 && <h4 className="m-4">No reservations found</h4>}
+      {update === 0 && <h4 className="mt-4 text-white-50">No reservations found</h4>}
       {update > 0 && <ReservationsTable reservations={reservations} /> }
     </div>
   );
