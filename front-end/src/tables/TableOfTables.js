@@ -16,7 +16,7 @@ export const TableOfTables = ({ tables, tableChange, triggerTableChange }) => {
   }
 
   return (
-    <div className="col">
+    <div className="col pl-sm-0 pl-md-3">
       {errorMessage && (
         <h5 className="alert alert-danger mx-1">{errorMessage}</h5>
       )}
