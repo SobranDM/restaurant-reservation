@@ -16,15 +16,12 @@ export const TableOfTables = ({ tables, tableChange, triggerTableChange }) => {
   }
 
   return (
-    <div className="col pr-0">
+    <div className="col">
       {errorMessage && (
         <h5 className="alert alert-danger mx-1">{errorMessage}</h5>
       )}
-      <table className="table table-striped table-bordered">
-        <caption>
-          <h3>Tables</h3>
-        </caption>
-        <thead className="table-secondary">
+      <table className="table table-dark table-striped table-bordered">
+        <thead>
           <tr>
             <th scope="col">Table Name</th>
             <th scope="col">Capacity</th>

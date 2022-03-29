@@ -20,13 +20,13 @@ This application was built using the following tech stack:
 
 ## Screenshots
 ### Dashboard
-![dashboard](/screenshots/Dashboard.png)
+![dashboard](/images/Dashboard.png)
 ### Search Reservations
-![search](/screenshots/Search.png)
+![search](/images/Search.png)
 ### Create Reservation
-![create](/screenshots/Create.png)
+![create](/images/Create.png)
 ### Seat Reservation
-![seat](/screenshots/Seat.png)
+![seat](/images/Seat.png)
 
 ## Installation
 

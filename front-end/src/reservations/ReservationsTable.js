@@ -21,9 +21,8 @@ export const ReservationsTable = ({ reservations, tableChange, triggerTableChang
       {errorMessage && (
         <h5 className="alert alert-danger mx-1">{errorMessage}</h5>
       )}
-      <table className="table table-striped table-bordered">
-        <caption><h3>Reservations</h3></caption>
-        <thead className="table-secondary">
+      <table className="table table-dark table-striped table-bordered">
+        <thead>
           <tr>
             <th scope="col">Time</th>
             <th scope="col">Name</th>

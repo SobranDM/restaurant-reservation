@@ -57,11 +57,11 @@ export const SeatReservation = () => {
         <div className="constainer-fluid">
           <div className="row align-items-start px-3">
             <div className="col pl-0">
-              <table className="table table-striped table-bordered mb-2">
+              <table className="table table-dark table-striped table-bordered mb-2">
                 <caption>
                   <h3>Reservation</h3>
                 </caption>
-                <thead className="table-secondary">
+                <thead>
                   <tr>
                     <th scope="col">Time</th>
                     <th scope="col">Name</th>

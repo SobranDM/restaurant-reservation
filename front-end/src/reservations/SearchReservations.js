@@ -32,7 +32,7 @@ export const SearchReservations = () => {
 
   return (
     <div>
-      <h1 className="my-3">Find Reservation by Mobile Number</h1>
+      <h1 className="my-3 text-white-50">Find Reservation</h1>
       {errorMessage && (
         <h5 className="alert alert-danger mx-1">{errorMessage}</h5>
       )}

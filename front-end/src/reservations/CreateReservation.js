@@ -34,7 +34,7 @@ export const CreateReservation = () => {
 
   return (
     <div>
-      <h1 className="my-3">Create Reservation</h1>
+      <h1 className="my-3 text-white-50">Create Reservation</h1>
       {errorMessage && (
         <h5 className="alert alert-danger mx-1">{errorMessage}</h5>
       )}
