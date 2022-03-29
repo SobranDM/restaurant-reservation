@@ -49,7 +49,7 @@ export const SeatReservation = () => {
 
   return (
     <main>
-      <h1 className="my-3 text-white-50">Seat Party</h1>
+      <h1 className="my-3 text-light">Seat Party</h1>
       {errorMessage && (
         <h5 className="alert alert-danger mx-1">{errorMessage}</h5>
       )}

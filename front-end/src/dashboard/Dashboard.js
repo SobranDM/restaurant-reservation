@@ -49,9 +49,9 @@ function Dashboard() {
 
   return (
     <main>
-      <h1 className="mt-3 text-white-50">Dashboard</h1>
+      <h1 className="mt-3 text-light">Dashboard</h1>
       <div className="d-md-flex mb-3 flex-column">
-        <h4 className="text-white-50">Reservations for {date}</h4>
+        <h4 className="text-light">Reservations for {date}</h4>
         <div
           className="btn-group my-4 justify-content-start"
           role="group"

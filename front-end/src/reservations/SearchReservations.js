@@ -32,7 +32,7 @@ export const SearchReservations = () => {
 
   return (
     <div>
-      <h1 className="my-3 text-white-50">Find Reservation</h1>
+      <h1 className="my-3 text-light">Find Reservation</h1>
       {errorMessage && (
         <h5 className="alert alert-danger mx-1">{errorMessage}</h5>
       )}
@@ -61,7 +61,7 @@ export const SearchReservations = () => {
           </button>
         </div>
       </div>
-      {update === 0 && <h4 className="mt-4 text-white-50">No reservations found</h4>}
+      {update === 0 && <h4 className="mt-4 text-light">No reservations found</h4>}
       {update > 0 && <ReservationsTable reservations={reservations} /> }
     </div>
   );
