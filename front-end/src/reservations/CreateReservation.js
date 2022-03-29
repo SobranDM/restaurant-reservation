@@ -39,7 +39,7 @@ export const CreateReservation = () => {
         <h5 className="alert alert-danger mx-1">{errorMessage}</h5>
       )}
       <ReservationForm formData={formData} setFormData={setFormData} />
-      <div className="btn-group ml-1 mt-1">
+      <div className="btn-group ml-1 my-1">
         <button
           type="button"
           className="btn btn-secondary"

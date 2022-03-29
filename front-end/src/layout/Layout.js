@@ -18,7 +18,7 @@ function Layout() {
         <div className="col-xl-2 side-bar">
           <Menu />
         </div>
-        <div className="col-xl-10 bg-image">
+        <div className="col-xl-10 bg-image pt-4 px-4">
           <Routes />
         </div>
       </div>

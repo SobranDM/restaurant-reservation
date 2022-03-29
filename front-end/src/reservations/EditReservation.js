@@ -54,7 +54,7 @@ export const EditReservation = () => {
       <h1 className="my-3">Edit Reservation</h1>
       <ErrorAlert error={errorMessage} />
       <ReservationForm formData={formData} setFormData={setFormData} />
-      <div className="btn-group ml-1 mt-1">
+      <div className="btn-group ml-1 my-1">
         <button
           type="button"
           className="btn btn-secondary"

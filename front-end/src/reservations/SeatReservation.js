@@ -49,7 +49,7 @@ export const SeatReservation = () => {
 
   return (
     <main>
-      <h1 className="my-3">Seat Party</h1>
+      <h1 className="my-3 text-white-50">Seat Party</h1>
       {errorMessage && (
         <h5 className="alert alert-danger mx-1">{errorMessage}</h5>
       )}
@@ -58,9 +58,6 @@ export const SeatReservation = () => {
           <div className="row align-items-start px-3">
             <div className="col pl-0">
               <table className="table table-dark table-striped table-bordered mb-2">
-                <caption>
-                  <h3>Reservation</h3>
-                </caption>
                 <thead>
                   <tr>
                     <th scope="col">Time</th>
@@ -105,7 +102,7 @@ export const SeatReservation = () => {
                   </tr>
                 </tbody>
               </table>
-              <div className="btn-group">
+              <div className="btn-group mb-2">
                 <button
                   type="button"
                   className="btn btn-secondary"
